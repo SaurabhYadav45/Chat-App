@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         required:[true, "Provide Email"],
         unique:true,
     },
+    password:{
+        type:String,
+        required:true,
+    },
     profile_pic:{
         type:String,
         default:"",
