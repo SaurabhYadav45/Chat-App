@@ -18,7 +18,21 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
 
   const[loading, setLoading] = useState(false)
   const[otherUsers, setOtherUsers] = useState([])
+  const [searchValue, setSearchValue] = useState("");
+  const [users, setUsers] = useState([]);
   
+
+  useEffect(() => {
+    if (!searchValue.trim()) {
+      setUsers(otherUsers);
+    } else {
+      setUsers(
+        otherUsers.filter((user) =>
+          user.name?.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }
+  }, [searchValue, otherUsers]);
 
   useEffect(() =>{
     (async() =>{
@@ -49,7 +63,7 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
 
 
   return (
-    <div className='max-w-[20em] w-full h-screen flex flex-col border-r border-r-gray-600 '>
+    <div className=' w-full h-screen flex flex-col border-r border-r-gray-600 md:max-w-[20em]'>
         {/* Name */}
         <div className='flex mx-2 border border-gray-600 bg-black rounded-lg mt-3 sm:px-2 py-1 text-[#4e0eff] gap-x-4'>
           <img src={logo} alt="" className='w-[30px] h-[30px]' />
@@ -58,17 +72,19 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
         {/* Searchbar */}
         <div className="mx-2 border border-gray-600 my-2 rounded-lg">
           <label className="input input-bordered flex items-center gap-2 bg-black ">
-          <input
-            type="text"
-            placeholder="Search User"
-            className="input input-sm w-full max-w-sm" />
+            <input
+              type="text"
+              placeholder="Search User"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="input input-sm w-full max-w-sm text-gray-100" />
             <IoSearch  className='text-gray-400'/>
           </label>
         </div>
 
         <div className='h-full overflow-y-auto px-3 flex flex-col gap-2 border-b border-b-gray-600 '>
           {
-            otherUsers?.map((user) => (
+            users?.map((user) => (
               <div key={user._id} onClick={() => setShowMessage(true)}>
                 <User user = {user}/>
               </div>

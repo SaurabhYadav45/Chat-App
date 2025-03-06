@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteMessage } from './DeleteMessage'
 import { setMessages } from '../../store/slice/message/message.slice'
+import { formatTime } from '../../utils/FormatDate'
 
 const Message = ({messageDetails}) => {
 
@@ -50,7 +51,7 @@ const Message = ({messageDetails}) => {
           </div>
         </div>
         <div className="chat-header">
-          <time className="text-xs text-white opacity-50">12:45</time>
+          <time className="text-xs text-white opacity-50">{formatTime(messageDetails?.createdAt)} </time>
         </div>
         {/* Display Image/Video */}
         {(messageDetails?.imageUrl || messageDetails?.videoUrl) && (

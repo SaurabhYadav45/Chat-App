@@ -17,7 +17,8 @@ const Home = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const{token, userDetails, selectedUser} = useSelector((state) => state.user)
+  const{token, userDetails} = useSelector((state) => state.user)
+  const{onlineUsers} = useSelector((state) => state.socketReducer)
   const{socket} = useSelector((state) =>state.socketReducer)
   const[profileModal, setProfileModal] = useState(false)
   const[showMessage, setShowMessage] = useState(false)
@@ -56,12 +57,12 @@ const Home = () => {
     <>
     <div className="h-screen flex overflow-hidden relative ">
       {/* Sidebar (Fixed Width) */}
-      <div className={`h-screen flex-shrink-0 ${showMessage ? "hidden sm:block" : "block"}`}>
+      <div className={`h-screen flex-shrink-0 transition-all duration-300 ${showMessage ? "hidden md:block md:max-w-[20em]" : "block w-full md:max-w-[20em"}`}>
         <UserSidebar setProfileModal={setProfileModal} setShowMessage={setShowMessage} />
       </div>
 
       {/* Chat Section (Takes Remaining Space) */}
-      <div className={`flex-grow flex-col h-screen ${showMessage ? "block" : "hidden sm:block"}`}>
+      <div className={`flex-grow flex-col h-screen ${showMessage ? "block" : "hidden md:block"}`}>
         <MessageContainer setShowMessage={setShowMessage}/>
       </div>
     </div>

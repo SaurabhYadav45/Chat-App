@@ -24,6 +24,9 @@ const MessageContainer = ({setShowMessage}) => {
 
   const[confirmationModal, setConfirmationModal] = useState(null)
 
+  const{onlineUsers} = useSelector((state) => state.socketReducer)
+  const isUserOnline = onlineUsers?.includes(selectedUser._id)
+
   useEffect(() =>{
     if(selectedUser?._id){
       (async() =>{
@@ -65,10 +68,14 @@ const MessageContainer = ({setShowMessage}) => {
       ):(
         <div className='flex flex-col h-full w-full'>
         {/* header */}
-        <div className= ' bg-black px-6 py-2 text-white  flex flex-col sm:flex-row sm:justify-between gap-x-4 items-center gap-y-4'>
+        <div className= ' bg-black px-6 py-2 text-white  flex flex-col sm:flex-row sm:justify-between gap-x-4 sm:items-center gap-y-4'>
           {/* user details */}
-          <div className='flex gap-x-4 items-center'>
-            <img src={selectedUser?.profile_pic}className='rounded-full w-[50px] h-[50px]'/>
+          <div className={`flex gap-x-4 items-center`}>
+            <div className={`${isUserOnline ? "border-[3px] border-green-500 rounded-full" : ""} relative`}>
+              <img src={selectedUser?.profile_pic}className='rounded-full w-[50px] h-[50px]'/>
+              {isUserOnline && (
+              <p className='w-3 h-3 rounded-full bg-green-500 absolute right-0 bottom-0'></p>)}
+            </div>
             <div>
               <p>{selectedUser?.name}</p>
               <p className='text-xs text-gray-300'>{selectedUser?.email}</p>
