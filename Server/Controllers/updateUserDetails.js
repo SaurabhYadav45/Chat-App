@@ -1,38 +1,31 @@
 const getUserDetailsFromToken = require("../Helpers/getUserDetails")
 const User = require("../Models/UserModel")
 
-const multer = require("multer")
 const uploadFiles = require("../Helpers/uploadFiles")
-// Multer Setup for File Uploads
-const storage = multer.diskStorage({});
-const upload = multer({ storage });
 
-
+// update user Detais
 async function updateUserDetails(req, res){
     try {
-        const token = req.cookies.token || ""
-        const { name, profile_pic } = request.body
+        const { name, about, userId} = req.body
 
-        const user = await getUserDetailsFromToken(token)
-
-        const updateUser = await User.findOneAndUpdate(
-            {_id: user._id},
+        const save = await User.findOneAndUpdate(
+            {_id: userId},
             {
-                name,
-                profile_pic
-            }
+                name : name,
+                about : about,
+            },
         )
 
-        const userInfomation = await User.findById(user._id)
+        const updatedUser = await User.findById(userId)
 
-        return res.status(500).json({
+        return res.status(200).json({
             success:true,
             message:"User updated Successfully",
-            data:userInfomation
+            data:updatedUser
         })
     } catch (error) {
         console.log("Failed to update User Details, Try again later")
-        return response.status(500).json({
+        return res.status(500).json({
             message : error.message || error,
             error : true
         })
@@ -40,12 +33,21 @@ async function updateUserDetails(req, res){
 }
 
 
-
+// update profile pic
 
 const updateProfilePic = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming user ID comes from middleware (like auth middleware)
+    const userId = req.user._id;
     
+    let imageUrl = ""
+    if(req?.file){
+      const fileBuffer = req?.file?.buffer
+      const fileName = req?.file?.originalName
+
+      imageUrl = await uploadFiles(fileBuffer, fileName)
+    }
+    
+    console.log("Image URL...", imageUrl)
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -53,13 +55,10 @@ const updateProfilePic = async (req, res) => {
       });
     }
 
-    // Upload new image to Cloudinary
-    const uploadedImageUrl = await uploadFiles(req.file.path);
-
     // Update User Document with new profile pic
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profile_pic: uploadedImageUrl },
+      { profile_pic: imageUrl},
       { new: true }
     );
 
@@ -80,7 +79,7 @@ const updateProfilePic = async (req, res) => {
     console.error("Error updating profile picture:", error);
     res.status(500).json({
       success: false,
-      message: error.message || "Internal Server Error",
+      message: error.message || "Error updating profile picture",
     });
   }
 };

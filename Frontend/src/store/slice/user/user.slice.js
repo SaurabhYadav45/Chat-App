@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// import{getUserProfileThunk, getOtherUsersThunk} from "./user.thunk"
 
 const initialState = {
   userDetails:localStorage?.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null,
@@ -25,25 +24,33 @@ export const userSlice = createSlice({
       state.selectedUser = action.payload
     },
     logout : (state,action)=>{
-        state._id = ""
-        state.name = ""
-        state.email = ""
-        state.profile_pic = ""
+        state.userDetails = null
         state.token = ""
         state.selectedUser = null
         localStorage.removeItem("userDetails")
         localStorage.removeItem("token");
         localStorage.removeItem("selectedUser");
-        // state.socketConnection = null
+        state.socketConnection = null
     },
     setOnlineUser : (state,action)=>{
       state.onlineUser = action.payload
     },
+    setDeleteAccount: (state) => {
+      state.userDetails = null;
+      state.token = "";
+      state.selectedUser = null;
+      state.onlineUser = [];
+      
+      // Remove from localStorage
+      localStorage.removeItem("userDetails");
+      localStorage.removeItem("token");
+      localStorage.removeItem("selectedUser");
+  },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUserDetails, setSelectedUser, setToken ,logout, setOnlineUser } = userSlice.actions
+export const { setUserDetails, setSelectedUser, setToken ,logout, setOnlineUser, setDeleteAccount } = userSlice.actions
 
 export default userSlice.reducer
 

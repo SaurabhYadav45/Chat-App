@@ -2,16 +2,14 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { IoSearch } from "react-icons/io5";
 import User from './User';
-import img from "../../assets/img.jpg"
 import logo from "../../assets/logo.svg"
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/slice/user/user.slice';
 import axios from 'axios';
 
 
 
-const UserSidebar = () => {
+const UserSidebar = ({setProfileModal, setShowMessage}) => {
 
   const dispatch = useDispatch()
 
@@ -20,7 +18,6 @@ const UserSidebar = () => {
 
   const[loading, setLoading] = useState(false)
   const[otherUsers, setOtherUsers] = useState([])
-
   
 
   useEffect(() =>{
@@ -52,12 +49,11 @@ const UserSidebar = () => {
 
 
   return (
-    <div className='max-w-[20em] h-screen w-full flex flex-col border-r border-r-gray-600 '>
+    <div className='max-w-[20em] w-full h-screen flex flex-col border-r border-r-gray-600 '>
         {/* Name */}
-        <div className='flex mx-2 border border-gray-600 bg-black rounded-lg mt-3 px-2 py-1 text-[#4e0eff] gap-x-4'>
+        <div className='flex mx-2 border border-gray-600 bg-black rounded-lg mt-3 sm:px-2 py-1 text-[#4e0eff] gap-x-4'>
           <img src={logo} alt="" className='w-[30px] h-[30px]' />
           <p className="text-xl font-semibold text-center text-white ">QUICK CHAT</p>
-
         </div>
         {/* Searchbar */}
         <div className="mx-2 border border-gray-600 my-2 rounded-lg">
@@ -73,18 +69,24 @@ const UserSidebar = () => {
         <div className='h-full overflow-y-auto px-3 flex flex-col gap-2 border-b border-b-gray-600 '>
           {
             otherUsers?.map((user) => (
-              <User key={user._id} user = {user}/>
+              <div key={user._id} onClick={() => setShowMessage(true)}>
+                <User user = {user}/>
+              </div>
             ))
           }
         </div>
         
         {/* profile and logout */}
         <div className='flex justify-between items-center px-4 text-white bg-black py-2'>
-          <img src={userDetails?.profile_pic} alt="img" className='w-[50px] h-[50px] rounded-full ' />
-          <p className='text-white'>{userDetails?.name}</p>
+          <div onClick={() => setProfileModal(true)} className='cursor-pointer flex gap-x-2 items-center'>
+            <img src={userDetails?.profile_pic} alt="img" className='w-[50px] h-[50px] rounded-full ' />
+            <p className='text-white'>{userDetails?.name}</p>
+          </div>
           <button onClick={handleLogOut}
           className='bg-[#4e0eff] h-fit px-4 py-2 rounded-lg font-semibold'>Logout</button>
         </div>
+
+        {}
     </div>
   )
 }

@@ -23,6 +23,8 @@ const ForgotPassword = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center flex-col ">
+      <h1 className="text-white text-xl">This Page is still in Progress, It 'll not work.</h1>
+      <p className="text-white">Thank You !</p>
       <div className= "bg-[#00000076]  text-white rounded-lg shadow-lg !px-10 !py-10">
         <h2 className="text-xl font-bold !my-4">Forgot Password?</h2>
         <p className="text-sm text-gray-300 !my-2">Enter your email to receive a reset link.</p>

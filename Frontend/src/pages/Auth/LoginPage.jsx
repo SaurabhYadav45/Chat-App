@@ -109,6 +109,7 @@ const LoginPage = () => {
               value={values.password}
               placeholder='Password'
               onChange={handleOnChange}
+              autoComplete="current-password"
               className='border-2 placeholder:pl-2 border-[#4e0eff] bg-transparent rounded-sm !py-1 focus:border-2 focus:border-[#997af0] outline-none'
               />
               <p  onClick={() => navigate("/forgot-password")}

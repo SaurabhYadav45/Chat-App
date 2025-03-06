@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteMessage } from './DeleteMessage'
+import { setMessages } from '../../store/slice/message/message.slice'
 
 const Message = ({messageDetails}) => {
+
+  const dispatch = useDispatch()
+  const{messages} = useSelector((state) => state.messageReducer)
+  const{token} = useSelector((state) =>state.user)
 
   const{userDetails, selectedUser} = useSelector((state) => state.user)
   const[status, setStatus] = useState("Sending...")
   const[isModalOpen, setIsModalOpen] = useState(false)
+
+  const[menuOpen, setMenuOpen] = useState(null)
 
   useEffect(() => {
     if (messageDetails?.status === true) {
       setStatus("Sent");
     }
   }, [messageDetails?.status]);
+
+
+  const handleDeleteMessage = async (messageId) => {
+    await deleteMessage(messageId, token);
+    dispatch(setMessages(messages.filter(msg => msg._id !== messageId)));
+    setMenuOpen(null); 
+};
 
   return (
     <>
@@ -50,7 +65,15 @@ const Message = ({messageDetails}) => {
 
       {/* Message Text */}
       {messageDetails?.message && (
-        <div className="chat-bubble">{messageDetails.message}</div>
+        <div className="chat-bubble">
+          {messageDetails.message}
+          <span className='menu-icon' onClick={() => setMenuOpen(messageDetails?._id)}>⋮</span>
+          {menuOpen === messageDetails?._id && (
+            <div className="menu">
+              <button onClick={() => handleDeleteMessage(messageDetails?._id)}>delete</button>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Status: Sending... or Sent */}

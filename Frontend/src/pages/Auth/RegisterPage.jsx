@@ -147,6 +147,7 @@ const RegisterPage = () => {
                 onChange={(e) => handleChange(e)}
                 required
                 value={values.password}
+                autoComplete="current-password"
                 className='border-2 placeholder:pl-2 border-[#4e0eff] bg-transparent rounded-sm !py-1 focus:border-2 focus:border-[#997af0] outline-none'
               />
             </div>
@@ -160,6 +161,7 @@ const RegisterPage = () => {
                 onChange={(e) => handleChange(e)}
                 required
                 value={values.confirmPassword}
+                autoComplete="current-password"
                 className='border-2 w-full placeholder:pl-2 border-[#4e0eff] bg-transparent rounded-sm !py-1 focus:border-2 focus:border-[#997af0] outline-none'
               />
             </div>

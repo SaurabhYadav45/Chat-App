@@ -23,7 +23,7 @@ const User = ({user}) => {
       </div>
         <div className='text-white'>
             <p>{user?.name}</p>
-            <p className='text-xs text-gray-300'>@{user?.email}</p>
+            <p className='text-xs text-gray-300'>{user?.about}</p>
         </div>
     </div>
   )

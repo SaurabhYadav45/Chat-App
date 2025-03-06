@@ -11,20 +11,13 @@ async function sendMessage(req, res){
     const {message, messageType} = req.body
 
     let fileUrl = ""
-    // console.log("Request file path...", req?.file)
-    // if(req.file){
-    //   fileUrl = await uploadFiles(req?.file?.buffer)
-    // }
-
 
     if (req?.file) {
       const fileBuffer = req.file.buffer; // This is the file stored in memory
       const fileName = req.file.originalname; // Optional: You can use the original file name
-  
-      console.log("Uploading file to Cloudinary...");
+      // console.log("Uploading file to Cloudinary...");
       fileUrl = await uploadFiles(fileBuffer, fileName);
-      console.log("✅ File uploaded successfully:", fileUrl);
-      
+      // console.log("✅ File uploaded successfully:", fileUrl);
   }
 
     console.log("senderId", senderId)

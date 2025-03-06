@@ -24,12 +24,13 @@ const SendMessage = () => {
   const fileInputRef = useRef()
 
 
-
+// Handle EmojiClick
   const handleEmojiClick = (emojiObject)=>{
     // console.log("emojiObject",emojiObject)
     setMessage((prev) => prev + emojiObject.emoji)
   }
 
+  // Handle File Change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -47,6 +48,7 @@ const SendMessage = () => {
     }
   };
 
+  // handle Send Message
   const handleSendMessage = async()=>{
     setUploading(true)
     const formData = new FormData()
@@ -115,7 +117,7 @@ const SendMessage = () => {
       </label>
 
       {/* Emoji Picker Icon */}
-      <div>
+      <div className="hidden sm:block">
       <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className="relative">
         <FaRegSmile size={24} className="text-gray-400 hover:text-white" />
       </button>

@@ -5,17 +5,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { useRef } from 'react'
 import { setMessages } from '../../store/slice/message/message.slice'
+import { RiChatDeleteFill } from "react-icons/ri";
+import { IoArrowBackCircle } from "react-icons/io5";
+
+import { deleteChat } from './DeleteMessage'
+import ConfirmationModal from '../commom/ConfirmationModal'
 
 
-const MessageContainer = () => {
+const MessageContainer = ({setShowMessage}) => {
 
   const dispatch = useDispatch()
 
   const{selectedUser, token} = useSelector((state) => state.user)
-  console.log(selectedUser)
+  // console.log(selectedUser)
   const {messages} = useSelector((state) => state.messageReducer ?? []);
   // const[messages, setMessages] = useState([])
   const messagesEndRef = useRef(null); // Ref for scrolling
+
+  const[confirmationModal, setConfirmationModal] = useState(null)
 
   useEffect(() =>{
     if(selectedUser?._id){
@@ -41,6 +48,13 @@ const MessageContainer = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+
+  const handleDeleteChat = async (recieverId) => {
+    await deleteChat(recieverId, token);
+    dispatch(setMessages([])) // Clear messages from UI
+    setConfirmationModal(false); // Close the modal
+};
+
   return (
     <>
       {!selectedUser ? (
@@ -51,25 +65,53 @@ const MessageContainer = () => {
       ):(
         <div className='flex flex-col h-full w-full'>
         {/* header */}
-        <div className= 'h-[60px] bg-black px-6 py-2 text-white flex gap-x-4 items-center'>
-          <img src={selectedUser?.profile_pic}className='rounded-full w-[50px] h-[50px]'/>
-          <div>
-            <p>{selectedUser?.name}</p>
-            <p className='text-xs text-gray-300'>{selectedUser?.email}</p>
+        <div className= ' bg-black px-6 py-2 text-white  flex flex-col sm:flex-row sm:justify-between gap-x-4 items-center gap-y-4'>
+          {/* user details */}
+          <div className='flex gap-x-4 items-center'>
+            <img src={selectedUser?.profile_pic}className='rounded-full w-[50px] h-[50px]'/>
+            <div>
+              <p>{selectedUser?.name}</p>
+              <p className='text-xs text-gray-300'>{selectedUser?.email}</p>
+            </div>
+          </div>
+
+          <div className='flex justify-between w-full sm:w-fit'>
+            <button onClick={() => setShowMessage(false)} className="sm:hidden text-white text-3xl">
+              <IoArrowBackCircle/>
+            </button>
+            {/* Delete chat Icon */}
+            <div className='lg:mr-20  flex gap-x-2 items-center'>
+              Delete Chat
+              <RiChatDeleteFill 
+                className='text-white text-xl cursor-pointer'
+                onClick={() => setConfirmationModal({
+                  text1:"Are you sure",
+                  text2:"Your complete chat will be deleted.",
+                  btn1Text:"Cancel",
+                  btn2Text:"Delete",
+                  btn1Handler:() => setConfirmationModal(null) ,
+                  btn2Handler: () => handleDeleteChat(selectedUser._id)
+              })} 
+              />
+            </div>
           </div>
         </div>
 
         {/* Message : Chat area */}
         <div className="flex-grow bg-[#181a2f] overflow-y-auto p-3 pb-[80px] custom-scrollbar">
           {messages?.map((messageDetails) =>(
-            <Message key={messageDetails?._id} messageDetails={messageDetails} />
+            <Message key={messageDetails?._id} messageDetails={messageDetails}>
+            </Message>
           ))}
           <div ref={messagesEndRef} className='h-4' /> {/* Scroll to this element */}
         </div>
 
         {/* Send message */}
-        
         <SendMessage/>
+
+        {confirmationModal && (
+          <ConfirmationModal modalData = {confirmationModal}/>
+        )}
       </div>
       )}
     </>

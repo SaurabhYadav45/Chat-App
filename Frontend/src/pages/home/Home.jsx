@@ -6,8 +6,10 @@ import UserSidebar from './UserSidebar'
 import MessageContainer from './MessageContainer'
 import {useNavigate } from 'react-router-dom'
 
+
 import {initializeSocket, setOnlineUsers, disconnectSocket} from '../../store/slice/socket/socket.slice'
 import{setNewMessage} from "../../store/slice/message/message.slice"
+import UserProfile from '../profile/UserProfile'
 
 
 const Home = () => {
@@ -15,8 +17,10 @@ const Home = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const{token, userDetails} = useSelector((state) => state.user)
+  const{token, userDetails, selectedUser} = useSelector((state) => state.user)
   const{socket} = useSelector((state) =>state.socketReducer)
+  const[profileModal, setProfileModal] = useState(false)
+  const[showMessage, setShowMessage] = useState(false)
 
   console.log("socket", socket)
   
@@ -49,19 +53,24 @@ const Home = () => {
   }, [socket]);
   
   return (
-    <div className="h-screen flex overflow-hidden">
+    <>
+    <div className="h-screen flex overflow-hidden relative ">
       {/* Sidebar (Fixed Width) */}
-      <div className='h-screen flex-shrink-0'>
-        <UserSidebar />
+      <div className={`h-screen flex-shrink-0 ${showMessage ? "hidden sm:block" : "block"}`}>
+        <UserSidebar setProfileModal={setProfileModal} setShowMessage={setShowMessage} />
       </div>
 
       {/* Chat Section (Takes Remaining Space) */}
-      <div className="flex-grow flex flex-col h-screen">
-        <MessageContainer/>
+      <div className={`flex-grow flex-col h-screen ${showMessage ? "block" : "hidden sm:block"}`}>
+        <MessageContainer setShowMessage={setShowMessage}/>
       </div>
-
-      
     </div>
+    {profileModal && (
+      <div className='modal-overlay'>
+        <UserProfile setProfileModal={setProfileModal}/>
+      </div>
+    )}
+    </>
   )
 }
 

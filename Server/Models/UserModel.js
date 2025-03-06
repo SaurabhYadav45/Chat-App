@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    about:{
+        type:String,
+        default:"Write something about yourself...",
+    },
     profile_pic:{
         type:String,
         default:"",

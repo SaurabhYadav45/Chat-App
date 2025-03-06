@@ -12,6 +12,9 @@ const{updateUserDetails, updateProfilePic} = require("../Controllers/updateUserD
 
 const {userDetails, getOtherUsers} = require("../Controllers/userDetails.js")
 
+const upload = require("../Middlewares/upload.js")
+const { deleteAccount } = require("../Controllers/Delete.js")
+
 
 
 // Create User
@@ -23,8 +26,12 @@ router.post("/login", login)
 //userDetails
 router.get("/user-details", isAuthenticated, userDetails)
 //update profile pic
-router.post("/update-profile-picture", isAuthenticated, updateProfilePic)
-// //get other user
-router.get("/get-other-users", isAuthenticated, getOtherUsers)
+router.post("/update-profile-picture", isAuthenticated, upload.single("file"), updateProfilePic)
+//update user details
+router.post("/update-user-details", isAuthenticated, updateUserDetails)
+//get other user
+router.get("/get-other-users", isAuthenticated, upload.single("file"), getOtherUsers)
+//Delete Account
+router.delete("/delete-account", isAuthenticated, deleteAccount)
 
 module.exports = router
