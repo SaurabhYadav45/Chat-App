@@ -62,6 +62,7 @@ const RegisterPage = () => {
 
 
   const handleSubmit = async (event) => {
+    const toastId = toast.loading("Loading...")
     event.preventDefault();
   
     // Validate input fields
@@ -98,6 +99,7 @@ const RegisterPage = () => {
     }
     finally{
       setLoading(false)
+      toast.dismiss(toastId)
     }
   };
   

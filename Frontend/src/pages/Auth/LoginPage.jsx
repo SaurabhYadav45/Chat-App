@@ -50,6 +50,7 @@ const LoginPage = () => {
 
 
   const handleSubmit = async(event)=>{
+    const toastId = toast.loading("Loading...")
     event.preventDefault()
     if(handleValidation()){
         const URL = `${import.meta.env.VITE_BASE_URL}/user/login`
@@ -78,6 +79,7 @@ const LoginPage = () => {
             toast.error("Login Failed, Please try again later.")
         }
     }
+    toast.dismiss(toastId)
   }
 
   return (

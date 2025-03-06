@@ -10,6 +10,7 @@ import { IoArrowBackCircle } from "react-icons/io5";
 
 import { deleteChat } from './DeleteMessage'
 import ConfirmationModal from '../commom/ConfirmationModal'
+import toast from 'react-hot-toast'
 
 
 const MessageContainer = ({setShowMessage}) => {
@@ -30,6 +31,7 @@ const MessageContainer = ({setShowMessage}) => {
   useEffect(() =>{
     if(selectedUser?._id){
       (async() =>{
+        const toastId = toast.loading("Loading...")
         try {
           const URL = `${import.meta.env.VITE_BASE_URL}/message/get-messages/${selectedUser._id}`
           const response = await axios.get(URL, {
@@ -43,6 +45,7 @@ const MessageContainer = ({setShowMessage}) => {
         } catch (error) {
           console.log("Get Message API Error....", error)
         }
+        toast.dismiss(toastId)
       })()
     }
   }, [selectedUser])

@@ -6,6 +6,7 @@ import logo from "../../assets/logo.svg"
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/slice/user/user.slice';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
 
@@ -36,6 +37,7 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
 
   useEffect(() =>{
     (async() =>{
+      const toastId = toast.loading("Loading...")
       try {
         setLoading(true)
         const URL = `${import.meta.env.VITE_BASE_URL}/user/get-other-users`
@@ -54,6 +56,7 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
         console.log("Other User response API Error....", error)
         setLoading(false)
       }
+      toast.dismiss(toastId)
     })()
   }, [])
 
