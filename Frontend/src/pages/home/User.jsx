@@ -11,7 +11,7 @@ const User = ({user}) => {
   const{selectedUser} = useSelector((state) => state.user)
   const{onlineUsers} = useSelector((state) => state.socketReducer)
 
-  const isUserOnline = onlineUsers?.includes(user._id)
+  const isUserOnline = onlineUsers?.includes(user?._id)
 
   const handleUserClick = ()=>{
     dispatch(setSelectedUser(user))

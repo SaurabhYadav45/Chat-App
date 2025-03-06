@@ -25,7 +25,7 @@ const MessageContainer = ({setShowMessage}) => {
   const[confirmationModal, setConfirmationModal] = useState(null)
 
   const{onlineUsers} = useSelector((state) => state.socketReducer)
-  const isUserOnline = onlineUsers?.includes(selectedUser._id)
+  const isUserOnline = onlineUsers?.includes(selectedUser?._id)
 
   useEffect(() =>{
     if(selectedUser?._id){

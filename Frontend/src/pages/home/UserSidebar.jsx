@@ -27,8 +27,8 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
       setUsers(otherUsers);
     } else {
       setUsers(
-        otherUsers.filter((user) =>
-          user.name?.toLowerCase().includes(searchValue.toLowerCase())
+        otherUsers?.filter((user) =>
+          user?.name?.toLowerCase().includes(searchValue?.toLowerCase())
         )
       );
     }
@@ -85,7 +85,7 @@ const UserSidebar = ({setProfileModal, setShowMessage}) => {
         <div className='h-full overflow-y-auto px-3 flex flex-col gap-2 border-b border-b-gray-600 '>
           {
             users?.map((user) => (
-              <div key={user._id} onClick={() => setShowMessage(true)}>
+              <div key={user?._id} onClick={() => setShowMessage(true)}>
                 <User user = {user}/>
               </div>
             ))
