@@ -57,7 +57,7 @@ const Home = () => {
     <>
     <div className="h-screen flex overflow-hidden relative ">
       {/* Sidebar (Fixed Width) */}
-      <div className={`h-screen flex-shrink-0 transition-all duration-300 ${showMessage ? "hidden md:block md:max-w-[20em]" : "block w-full md:max-w-[20em"}`}>
+      <div className={`h-screen flex-shrink-0 transition-all duration-300 ${showMessage ? "hidden md:block md:max-w-[20em]" : "block w-full md:max-w-[20em]"}`}>
         <UserSidebar setProfileModal={setProfileModal} setShowMessage={setShowMessage} />
       </div>
 
