@@ -90,7 +90,7 @@ const MessageContainer = ({setShowMessage}) => {
               <IoArrowBackCircle/>
             </button>
             {/* Delete chat Icon */}
-            <div className='lg:mr-20  flex gap-x-2 items-center'>
+            <div className=' flex gap-x-2 items-center'>
               Delete Chat
               <RiChatDeleteFill 
                 className='text-white text-xl cursor-pointer'
