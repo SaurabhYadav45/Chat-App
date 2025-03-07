@@ -81,7 +81,7 @@ const MessageContainer = ({setShowMessage}) => {
             </div>
             <div>
               <p>{selectedUser?.name}</p>
-              <p className='text-xs text-gray-300'>{selectedUser?.email}</p>
+              <p className='text-xs text-gray-300'>{isUserOnline ? "Online" : "Offline"}</p>
             </div>
           </div>
 
