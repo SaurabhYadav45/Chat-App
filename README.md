@@ -11,7 +11,7 @@ Quick Chat is a real-time chat application built using the MERN (MongoDB, Expres
 - **Responsive UI** for a smooth experience on all devices
 ## Screenshots
 
-![Screenshot 2025-02-27 164938](https://github.com/user-attachments/assets/842d10de-f157-4ec9-a9fa-674f71afce0a)
+![Screenshot 2025-03-22 000922](https://github.com/user-attachments/assets/b2b3ba24-e78e-4bb2-9c8d-6e49ef3ec09a)
 
 ![Screenshot 2025-02-27 165016](https://github.com/user-attachments/assets/20077274-3114-4168-b862-3837ba6c7bd3)
 
